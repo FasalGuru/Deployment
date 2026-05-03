@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %} Fasal Guru | Models {% endblock %}
+{% block content %}
+<section class="min-vh-100 d-flex flex-column justify-content-center align-items-center py-5">
+    <div class="container-lg mb-4">
+        <h1 class="fw-bold text-success">
+            Smart Crop Recommendation
+        </h1>
+        <p class="lead fw-semibold text-warning">
+            Get AI-powered crop suggestions <br/> tailored to your soil and climate conditions.
+        </p>
+        <p class="small text-muted">
+            Enter key parameters like Nitrogen, Phosphorus, Potassium, temperature, humidity, and rainfall
+            <br/>
+            to discover the crop that offers the highest yield potential for your field.
+        </p>
+    </div>
+    <div class="container">
+        <form method="post" action="{{url_for('models.index')}}" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                    <div class="input-group d-flex align-items-center">
+                        <span class="input-group-text"><i class="bi bi-bug-fill"></i></span>
+                        <div class="form-floating">
+                            <input type="range" min="0" max="200" name="N"
+                                   class="form-range form-control mx-2 px-2 border-0"
+                                   id="nitrogen"/>
+                            <output for="nitrogen" id="nitrogen-output" class="px-3 small"></output>
+                            <label class="px-3" for="nitrogen">Nitrogen content</label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group d-flex align-items-center">
+                        <span class="input-group-text small"><i class="bi bi-flask-florence-fill"></i></span>
+                        <div class="form-floating">
+                            <input type="range" min="0" max="200" name="P"
+                                   class="form-range form-control h-100 mx-2 px-2 border-0" id="phosphorous"/>
+                            <output for="phosphorous" id="phosphorous-output" class="px-3 small"></output>
+                            <label for="phosphorous" class="px-3">Phosphorous content</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                    <div class="input-group d-flex align-items-center">
+                        <span class="input-group-text"><i class="bi bi-ev-front-fill"></i></span>
+                        <div class="form-floating">
+                            <input type="range" min="0" max="250" name="K"
+                                   class="form-range form-control mx-2 px-2 border-0 outline-0"
+                                   id="potassium"/>
+                            <output for="potassium" id="potassium-output" class="px-3 small"></output>
+                            <label for="potassium" class="px-3">Potassium content</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group d-flex align-items-center">
+                        <span class="input-group-text small"><i class="bi bi-thermometer-half"></i></span>
+                        <div class="form-floating">
+                            <input type="range" min="-5" max="60" name="temperature"
+                                   class="form-range form-control h-100 mx-2 px-2 border-0 outline-0" id="temperature"/>
+                            <output for="temperature" id="temperature-output" class="px-3 small"></output>
+                            <label for="temperature" class="px-3">Temperature °C</label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                    <div class="input-group d-flex align-items-center">
+                        <span class="input-group-text"><i class="bi bi-moisture"></i></span>
+                        <div class="form-floating">
+                            <input type="range" min="0" max="100" name="humidity"
+                                   class="form-range form-control mx-2 px-2 border-0 outline-0" id="humidity"/>
+                            <output for="humidity" id="humidity-output" class="px-3 small"></output>
+                            <label for="humidity" class="px-3">Humidity %</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group d-flex align-items-center">
+                        <span class="input-group-text small"><i class="bi bi-flask-fill"></i></span>
+                        <div class="form-floating">
+                            <input type="range" min="0" max="14" name="ph"
+                                   class="form-range form-control h-100 mx-2 px-2 border-0 outline-0" id="pH"/>
+                            <output for="ph" id="pH-output" class="px-3 small"></output>
+                            <label for="pH" class="px-3">pH</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                    <div class="input-group d-flex align-items-center">
+                        <span class="input-group-text small"><i class="bi bi-droplet-fill"></i></span>
+                        <div class="form-floating">
+                            <input type="range" min="0" max="400" name="rainfall"
+                                   class="form-range form-control h-100 mx-2 px-2 border-0 outline-0" id="rainfall"/>
+                            <output for="phosphorous" id="rainfall-output" class="px-3 small"></output>
+                            <label for="rainfall" class="px-3">
+                                Rainfall (mm)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-secondary fw-bold rounded-0" id="submit-btn">
+                Submit
+            </button>
+        </form>
+    </div>
+</section>
+
+<script src="{{url_for('static', filename='js/output.js')}}"></script>
+{% endblock %}

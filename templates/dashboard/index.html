@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %} Fasal Guru | Dashboard {% endblock %}
+{% block content %}
+<section id="hero" class="min-vh-100 d-flex justify-content-center align-items-center">
+    <div class="container-lg g-0 p-3 p-lg-5 mt-3 d-flex justify-content-center justifiy-content-lg-start align-items-center">
+        <div class="row">
+            <div class="col-lg-5 p-3 d-flex flex-column justify-content-center align-items-start">
+                <h1 class="fw-bold text-success display-1">FasalGuru</h1>
+                <p class="lead fw-semibold display-6">
+                    Turning Data into Better Crops
+                </p>
+                <p class="fs-6 text-muted">
+                    Harness the power of AI and machine learning to identify the most suitable crops for your land and
+                    maximize agricultural productivity.
+                </p>
+                <a href="/#services" class="btn btn-dark bg-success btn-large rounded-pill fw-bold align-self-end">
+                    Get Started
+                </a>
+            </div>
+            <div class="col-lg-7">
+                <img src="{{url_for('static', filename='assets/hero.jpg')}}" class="img-fluid"/>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="about" class="bg-light py-5">
+    <div class="container-md">
+        <div class="row text-center">
+            <div class="col d-flex flex-column justify-content-center align-items-center">
+                <h2 class="display-2 fw-bold text-success">
+                    About us
+                </h2>
+                <p class="lead fs-6 fw-semibold">
+                    <span class="text-warning">Winner</span> in the <span class="text-warning">ITAC Pravah Hackathon 2025</span>,
+                    conducted by
+                </p>
+                <ul class="container-lg row justify-content-center align-items-center">
+                    <li class="list-group-item col-1">
+                        <img src="{{url_for('static', filename='assets/iitg.svg')}}" class="img-fluid"/>
+                    </li>
+                    <li class="list-group-item col-1">
+                        <img src="{{url_for('static', filename='assets/nitsilchar.svg')}}" class="img-fluid"/>
+                    </li>
+                    <li class="list-group-item col-1">
+                        <img src="{{url_for('static', filename='assets/nita.png')}}" class="img-fluid"/>
+                    </li>
+
+                    <li class="list-group-item col-1">
+                        <img src="{{url_for('static', filename='assets/nitmanipur.png')}}" class="img-fluid"/>
+                    </li>
+                    <li class="list-group-item col-1">
+                        <img src="{{url_for('static', filename='assets/nitnagaland.png')}}" class="img-fluid"/>
+                    </li>
+
+                    <li class="list-group-item col-1">
+                        <img src="{{url_for('static', filename='assets/nitmizoram.png')}}" class="img-fluid"/>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col row">
+                <div class="col-lg-7">
+                    <h3 class="fs-3 fw-bold text-warning">
+                        Our Idea
+                    </h3>
+                    <p class="small fw-light text-muted text-start">
+                        The problem statement was an open-ended challenge aimed at showcasing our AI/ML skills by
+                        solving a real world problem.
+                        <br/>
+                        <br/>
+                        We chose to address one of the most impactful
+                        domains agriculture by building an intelligent crop recommendation system for farmers. Our
+                        solution leverages machine learning to analyze factors such as soil parameters, climate
+                        conditions, and environmental data to suggest the most suitable crops for a given region or
+                        field.
+                        <br/>
+                        To ensure accessibility and practical usability, we developed both a web-based platform
+                        and a desktop application, enabling farmers and stakeholders to easily interact with the system
+                        across different environments.
+                    </p>
+                </div>
+                <div class="col-lg-5 d-none d-lg-flex justify-content-center align-items-center">
+                    <img src="{{url_for('static', filename='assets/programmer.png')}}" class="img-fluid"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="services">
+    <div class="container-lg g-0 p-3 mt-3 d-flex justify-content-center justifiy-content-lg-start align-items-center">
+        <div class="row g-4 justify-content-center align-items-center">
+
+            <div class="col-lg-7">
+                <div class="row justify-content-center align-items-center px-2">
+                    <div class="col-md-6 my-5">
+                        <div class="card">
+                            <img src="{{url_for('static', filename='assets/web-service.png')}}" class="card-img-top"
+                                 alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">Web Service</h5>
+                                <p class="card-text small text-muted fw-light">
+                                    Run AI/ML farming optimization models through a cloud-hosted web interface that
+                                    supports real-time inference on soil and environmental inputs. The service delivers
+                                    fast predictions, scalable access, and seamless integration for data-driven crop
+                                    selection and farm decision-making.
+                                </p>
+                                <a href="{{url_for('models.index')}}"
+                                   class="btn btn-success btn-sm fw-light rounded-0">Try
+                                    it out <i class="bi bi-arrow-up-right mx-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <img src="{{url_for('static', filename='assets/desktop-app.png')}}" class="card-img-top"
+                                 alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">Desktop Application</h5>
+                                <p class="card-text small text-muted fw-light">
+                                    A standalone desktop application that enables local execution of AI/ML farming
+                                    optimization models for fast, offline-capable inference. Provides a streamlined
+                                    interface for entering soil and climate parameters and generating accurate crop and
+                                    yield predictions with low latency.
+                                </p>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <a href="https://drive.google.com/uc?export=download&id=1yW-CvWT9L7v8AjLzOjstIrzXuhm17Afq"
+                                       class="btn btn-success btn-sm fw-light rounded-0">Try
+                                        it out <i class="bi bi-arrow-up-right mx-2"></i></a>
+                                    <a href="https://github.com/FasalGuru"
+                                       class="btn btn-warning btn-sm fw-light rounded-0 mx-2">Code<i
+                                            class="bi bi-github mx-2"></i></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-5 px-3 d-flex flex-column justify-content-center align-items-start">
+                <h1 class="fw-bold text-success display-1">Our Services</h1>
+                <p class="lead fw-semibold display-6">
+                    Turning Data into Decisions for Smarter Farming
+                </p>
+                <p class="small text-muted">
+                    We provide end-to-end AI-powered farming optimization solutions that combine advanced machine
+                    learning models with real-world implementations. From crop recommendation and soil analysis to yield
+                    prediction and climate-aware insights, our services transform agricultural data into actionable
+                    intelligence. Beyond model development, we ensure seamless integration of these solutions into
+                    practical systems that farmers and agribusinesses can easily use, enabling smarter decisions, higher
+                    productivity, and sustainable farming practices.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

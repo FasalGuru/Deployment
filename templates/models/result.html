@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Fasal Guru | Result{% endblock %}
+{% block content %}
+<!--f"<p>{result}<p> {df_html} <img src='data:image/png;base64,{img_base64}'/>"-->
+<section class="min-vh-100 bg-light py-5">
+    <div class="container d-flex flex-column justify-content-center align-items-start">
+        <div class="d-flex justify-content-start align-items-center">
+            <h3 class="fw-bold text-success me-2">
+                Result
+            </h3>
+            <h3 class="fw-semibold text-warning">
+                {% if result %}
+                {{result}}
+                {% endif %}
+            </h3>
+        </div>
+        <p class="lead">
+            is the optimum crop you can grow in your fields
+        </p>
+
+
+        <div class="row w-100 align-items-center justify-content-center">
+            <div class="col-lg-6">
+                {% if values and columns %}
+                <table class="table table-bordered mt-4 d-block">
+                    <thead>
+                    <tr>
+                        {% for col in columns %}
+                        <th scope="col">{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {% for val in values %}
+                        <td>{{ val }}</td>
+                        {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+            <div class="col-lg-6">
+                {% if graph %}
+                <img src="data:image/png;base64,{{graph}}" class="img-fluid w-100" alt=""/>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
