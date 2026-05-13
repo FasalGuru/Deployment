@@ -18,7 +18,7 @@ import requests
 @models.route("/", methods=["GET", "POST"], strict_slashes=False)
 def index():
     if request.method == "GET":
-        return render_template("/models/index.html")
+        return render_template("models/index.html")
     elif request.method == "POST":
         keys = ["N", "P", "K", "temperature", "humidity", "ph", "rainfall"]
         input_dict = {}
@@ -36,7 +36,7 @@ def index():
             data = response.json()
 
             return render_template(
-                "/models/result.html",
+                "models/result.html",
                 result=data["prediction"],
                 confidence=data["confidence"] * 100,
                 values=list(input_dict.items()),
