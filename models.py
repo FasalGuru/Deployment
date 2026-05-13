@@ -30,7 +30,7 @@ def index():
 
 
         try:
-            response = requests.post(str(os.environ.get("API_URL", "http://127.0.0.1:7860/predict")), json=input_dict)
+            response = requests.post(str(os.environ.get("API_URL", "https://nkca122-fasalguru.hf.space/predict")), json=input_dict)
 
             response.raise_for_status()
             data = response.json()
