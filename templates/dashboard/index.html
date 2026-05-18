@@ -1,159 +1,491 @@
 {% extends "base.html" %}
 {% block title %} Fasal Guru | Dashboard {% endblock %}
 {% block content %}
-<section id="hero" class="min-vh-100 d-flex justify-content-center align-items-center">
-    <div class="container-lg g-0 p-3 p-lg-5 mt-3 d-flex justify-content-center justifiy-content-lg-start align-items-center">
-        <div class="row">
-            <div class="col-lg-5 p-3 d-flex flex-column justify-content-center align-items-start">
-                <h1 class="fw-bold text-success display-1">FasalGuru</h1>
-                <p class="lead fw-semibold display-6">
-                    Turning Data into Better Crops
-                </p>
-                <p class="fs-6 text-muted">
-                    Harness the power of AI and machine learning to identify the most suitable crops for your land and
-                    maximize agricultural productivity.
-                </p>
-                <a href="/#services" class="btn btn-dark bg-success btn-large rounded-pill fw-bold align-self-end">
-                    Get Started
-                </a>
-            </div>
-            <div class="col-lg-7">
-                <img src="{{url_for('static', filename='assets/hero.jpg')}}" class="img-fluid"/>
-            </div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --fg-green: #1a6b3a;
+    --fg-green-light: #e8f5ee;
+    --fg-green-mid: #2d8a50;
+    --fg-amber: #e07c2a;
+    --fg-amber-light: #fdf3e7;
+    --fg-dark: #111c14;
+    --fg-muted: #6b7c71;
+    --fg-surface: #f7faf8;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── Hero ── */
+  #hero {
+    background: linear-gradient(135deg, #f0f8f3 0%, #e8f5ee 60%, #fdf3e7 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45,138,80,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  #hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(224,124,42,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    color: var(--fg-green);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+
+  .hero-tagline {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 500;
+    color: var(--fg-dark);
+    line-height: 1.3;
+  }
+
+  .hero-desc {
+    color: var(--fg-muted);
+    font-size: 1rem;
+    font-weight: 300;
+    max-width: 440px;
+  }
+
+  .btn-cta {
+    background: var(--fg-green);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 18px rgba(26,107,58,0.18);
+  }
+
+  .btn-cta:hover {
+    background: var(--fg-green-mid);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(26,107,58,0.24);
+  }
+
+  .hero-img-wrap {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(26,107,58,0.14), 0 4px 16px rgba(0,0,0,0.08);
+    transform: perspective(800px) rotateY(-3deg);
+    transition: transform 0.4s;
+  }
+
+  .hero-img-wrap:hover {
+    transform: perspective(800px) rotateY(0deg);
+  }
+
+  .hero-img-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ── Badge strip ── */
+  .stat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid rgba(26,107,58,0.15);
+    border-radius: 50px;
+    padding: 0.35rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--fg-green);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .stat-badge .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--fg-amber);
+  }
+
+  /* ── About ── */
+  #about {
+    background: #fff;
+    border-top: 1px solid rgba(26,107,58,0.08);
+  }
+
+  .about-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--fg-green);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+  }
+
+  .winner-badge {
+    display: inline-block;
+    background: var(--fg-amber-light);
+    color: var(--fg-amber);
+    border: 1px solid rgba(224,124,42,0.2);
+    border-radius: 6px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .institute-logo-list {
+    list-style: none;
+    padding: 0; margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .institute-logo-list li {
+    background: var(--fg-surface);
+    border: 1px solid rgba(26,107,58,0.1);
+    border-radius: 12px;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px; height: 64px;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .institute-logo-list li:hover {
+    box-shadow: 0 4px 16px rgba(26,107,58,0.12);
+    transform: translateY(-2px);
+  }
+
+  .institute-logo-list li img {
+    max-width: 52px;
+    max-height: 44px;
+    object-fit: contain;
+  }
+
+  .idea-card {
+    background: var(--fg-surface);
+    border: 1px solid rgba(26,107,58,0.1);
+    border-radius: 16px;
+    padding: 2rem;
+  }
+
+  .idea-card h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--fg-amber);
+    font-size: 1.6rem;
+  }
+
+  .idea-card p {
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ── Services ── */
+  #services {
+    background: linear-gradient(180deg, #fff 0%, var(--fg-green-light) 100%);
+  }
+
+  .services-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--fg-green);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+  }
+
+  .service-card {
+    border: 1px solid rgba(26,107,58,0.12);
+    border-radius: 18px;
+    overflow: hidden;
+    background: #fff;
+    transition: box-shadow 0.25s, transform 0.25s;
+    height: 100%;
+  }
+
+  .service-card:hover {
+    box-shadow: 0 16px 48px rgba(26,107,58,0.15);
+    transform: translateY(-4px);
+  }
+
+  .service-card .card-img-top {
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .service-card .card-body {
+    padding: 1.4rem;
+  }
+
+  .service-card .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--fg-dark);
+  }
+
+  .service-card .card-text {
+    color: var(--fg-muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .btn-service-primary {
+    background: var(--fg-green);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  .btn-service-primary:hover {
+    background: var(--fg-green-mid);
+    color: #fff;
+  }
+
+  .btn-service-secondary {
+    background: transparent;
+    color: var(--fg-amber);
+    border: 1px solid var(--fg-amber);
+    border-radius: 6px;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-service-secondary:hover {
+    background: var(--fg-amber);
+    color: #fff;
+  }
+
+  .services-desc {
+    color: var(--fg-muted);
+    font-size: 0.92rem;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ── Divider leaf ── */
+  .leaf-divider {
+    text-align: center;
+    color: var(--fg-green);
+    opacity: 0.25;
+    font-size: 1.4rem;
+    letter-spacing: 8px;
+    margin: 0.5rem 0;
+  }
+</style>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section id="hero" class="py-5">
+  <div class="container py-5">
+    <div class="row align-items-center g-5">
+
+      <!-- Left copy -->
+      <div class="col-lg-5 d-flex flex-column gap-4">
+
+        <!-- Live badge -->
+        <div>
+          <span class="stat-badge">
+            <span class="dot"></span>
+            AI-Powered Crop Intelligence
+          </span>
         </div>
+
+        <div>
+          <h1 class="hero-brand mb-2">FasalGuru</h1>
+          <p class="hero-tagline mb-0">Turning Data into<br>Better Crops</p>
+        </div>
+
+        <p class="hero-desc mb-0">
+          Harness machine learning to identify the most suitable crops for your land
+          and maximise agricultural productivity with confidence.
+        </p>
+
+        <div class="d-flex gap-3 align-items-center flex-wrap">
+          <a href="/#services" class="btn btn-cta">
+            Get Started &rarr;
+          </a>
+          <a href="/#about" class="text-decoration-none" style="color: var(--fg-green); font-size: 0.9rem; font-weight: 500;">
+            Learn more ↓
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Right image -->
+      <div class="col-lg-7">
+        <div class="hero-img-wrap">
+          <img src="{{url_for('static', filename='assets/hero.jpg')}}" alt="FasalGuru hero — smart farming" />
+        </div>
+      </div>
+
     </div>
+  </div>
 </section>
-<section id="about" class="bg-light py-5">
-    <div class="container-md">
-        <div class="row text-center">
-            <div class="col d-flex flex-column justify-content-center align-items-center">
-                <h2 class="display-2 fw-bold text-success">
-                    About us
-                </h2>
-                <p class="lead fs-6 fw-semibold">
-                    <span class="text-warning">Winner</span> in the <span class="text-warning">ITAC Pravah Hackathon 2025</span>,
-                    conducted by
-                </p>
-                <ul class="container-lg row justify-content-center align-items-center">
-                    <li class="list-group-item col-1">
-                        <img src="{{url_for('static', filename='assets/iitg.svg')}}" class="img-fluid"/>
-                    </li>
-                    <li class="list-group-item col-1">
-                        <img src="{{url_for('static', filename='assets/nitsilchar.svg')}}" class="img-fluid"/>
-                    </li>
-                    <li class="list-group-item col-1">
-                        <img src="{{url_for('static', filename='assets/nita.png')}}" class="img-fluid"/>
-                    </li>
 
-                    <li class="list-group-item col-1">
-                        <img src="{{url_for('static', filename='assets/nitmanipur.png')}}" class="img-fluid"/>
-                    </li>
-                    <li class="list-group-item col-1">
-                        <img src="{{url_for('static', filename='assets/nitnagaland.png')}}" class="img-fluid"/>
-                    </li>
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<section id="about" class="py-5">
+  <div class="container py-4">
 
-                    <li class="list-group-item col-1">
-                        <img src="{{url_for('static', filename='assets/nitmizoram.png')}}" class="img-fluid"/>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col row">
-                <div class="col-lg-7">
-                    <h3 class="fs-3 fw-bold text-warning">
-                        Our Idea
-                    </h3>
-                    <p class="small fw-light text-muted text-start">
-                        The problem statement was an open-ended challenge aimed at showcasing our AI/ML skills by
-                        solving a real world problem.
-                        <br/>
-                        <br/>
-                        We chose to address one of the most impactful
-                        domains agriculture by building an intelligent crop recommendation system for farmers. Our
-                        solution leverages machine learning to analyze factors such as soil parameters, climate
-                        conditions, and environmental data to suggest the most suitable crops for a given region or
-                        field.
-                        <br/>
-                        To ensure accessibility and practical usability, we developed both a web-based platform
-                        and a desktop application, enabling farmers and stakeholders to easily interact with the system
-                        across different environments.
-                    </p>
-                </div>
-                <div class="col-lg-5 d-none d-lg-flex justify-content-center align-items-center">
-                    <img src="{{url_for('static', filename='assets/programmer.png')}}" class="img-fluid"/>
-                </div>
-            </div>
-        </div>
+    <div class="text-center mb-5">
+      <h2 class="about-title mb-3">About Us</h2>
+      <div class="leaf-divider">✦ ✦ ✦</div>
+      <div class="mt-3">
+        <span class="winner-badge">🏆 Winner</span>
+        <span class="ms-2" style="color: var(--fg-muted); font-size: 0.92rem;">
+          ITAC Pravah Hackathon 2025, conducted by
+        </span>
+      </div>
     </div>
-</section>
-<section id="services">
-    <div class="container-lg g-0 p-3 mt-3 d-flex justify-content-center justifiy-content-lg-start align-items-center">
-        <div class="row g-4 justify-content-center align-items-center">
 
-            <div class="col-lg-7">
-                <div class="row justify-content-center align-items-center px-2">
-                    <div class="col-md-6 my-5">
-                        <div class="card">
-                            <img src="{{url_for('static', filename='assets/web-service.png')}}" class="card-img-top"
-                                 alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">Web Service</h5>
-                                <p class="card-text small text-muted fw-light">
-                                    Run AI/ML farming optimization models through a cloud-hosted web interface that
-                                    supports real-time inference on soil and environmental inputs. The service delivers
-                                    fast predictions, scalable access, and seamless integration for data-driven crop
-                                    selection and farm decision-making.
-                                </p>
-                                <a href="{{url_for('models.index')}}"
-                                   class="btn btn-success btn-sm fw-light rounded-0">Try
-                                    it out <i class="bi bi-arrow-up-right mx-2"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <img src="{{url_for('static', filename='assets/desktop-app.png')}}" class="card-img-top"
-                                 alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">Desktop Application</h5>
-                                <p class="card-text small text-muted fw-light">
-                                    A standalone desktop application that enables local execution of AI/ML farming
-                                    optimization models for fast, offline-capable inference. Provides a streamlined
-                                    interface for entering soil and climate parameters and generating accurate crop and
-                                    yield predictions with low latency.
-                                </p>
-                                <div class="d-flex justify-content-start align-items-center">
-                                    <a href="https://drive.google.com/uc?export=download&id=1yW-CvWT9L7v8AjLzOjstIrzXuhm17Afq"
-                                       class="btn btn-success btn-sm fw-light rounded-0">Try
-                                        it out <i class="bi bi-arrow-up-right mx-2"></i></a>
-                                    <a href="https://github.com/FasalGuru"
-                                       class="btn btn-warning btn-sm fw-light rounded-0 mx-2">Code<i
-                                            class="bi bi-github mx-2"></i></a>
-                                </div>
+    <!-- Institute logos -->
+    <ul class="institute-logo-list mb-5">
+      <li>
+        <img src="{{url_for('static', filename='assets/iitg.svg')}}" alt="IIT Guwahati" />
+      </li>
+      <li>
+        <img src="{{url_for('static', filename='assets/nitsilchar.svg')}}" alt="NIT Silchar" />
+      </li>
+      <li>
+        <img src="{{url_for('static', filename='assets/nita.png')}}" alt="NIT Agartala" />
+      </li>
+      <li>
+        <img src="{{url_for('static', filename='assets/nitmanipur.png')}}" alt="NIT Manipur" />
+      </li>
+      <li>
+        <img src="{{url_for('static', filename='assets/nitnagaland.png')}}" alt="NIT Nagaland" />
+      </li>
+      <li>
+        <img src="{{url_for('static', filename='assets/nitmizoram.png')}}" alt="NIT Mizoram" />
+      </li>
+    </ul>
 
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-lg-5 px-3 d-flex flex-column justify-content-center align-items-start">
-                <h1 class="fw-bold text-success display-1">Our Services</h1>
-                <p class="lead fw-semibold display-6">
-                    Turning Data into Decisions for Smarter Farming
-                </p>
-                <p class="small text-muted">
-                    We provide end-to-end AI-powered farming optimization solutions that combine advanced machine
-                    learning models with real-world implementations. From crop recommendation and soil analysis to yield
-                    prediction and climate-aware insights, our services transform agricultural data into actionable
-                    intelligence. Beyond model development, we ensure seamless integration of these solutions into
-                    practical systems that farmers and agribusinesses can easily use, enabling smarter decisions, higher
-                    productivity, and sustainable farming practices.
-                </p>
-
-            </div>
+    <!-- Idea block -->
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <div class="idea-card">
+          <h3 class="mb-3">Our Idea</h3>
+          <p>
+            The problem statement was an open-ended challenge aimed at showcasing our AI/ML skills by
+            solving a real-world problem.
+          </p>
+          <p class="mb-0">
+            We chose to address one of the most impactful domains — agriculture — by building an intelligent
+            crop recommendation system for farmers. Our solution leverages machine learning to analyse soil
+            parameters, climate conditions, and environmental data to suggest the most suitable crops for a
+            given region or field. To ensure accessibility, we developed both a web-based platform and a
+            desktop application, enabling farmers and stakeholders to easily interact with the system
+            across different environments.
+          </p>
         </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-flex justify-content-center">
+        <img src="{{url_for('static', filename='assets/programmer.png')}}" class="img-fluid" style="max-height: 320px; filter: drop-shadow(0 8px 24px rgba(26,107,58,0.12));" alt="Developer illustration" />
+      </div>
     </div>
+
+  </div>
 </section>
+
+<!-- ═══════════════ SERVICES ═══════════════ -->
+<section id="services" class="py-5">
+  <div class="container py-4">
+    <div class="row align-items-center g-5">
+
+      <!-- Cards column -->
+      <div class="col-lg-7">
+        <div class="row g-4">
+
+          <div class="col-md-6">
+            <div class="service-card">
+              <img src="{{url_for('static', filename='assets/web-service.png')}}" class="card-img-top" alt="Web service illustration" />
+              <div class="card-body d-flex flex-column gap-3">
+                <div>
+                  <h5 class="card-title mb-1">Web Service</h5>
+                  <p class="card-text">
+                    Run AI/ML farming optimisation models through a cloud-hosted interface with real-time inference on soil and environmental inputs. Fast predictions, scalable access, seamless integration.
+                  </p>
+                </div>
+                <div class="mt-auto">
+                  <a href="{{url_for('models.index')}}" class="btn btn-service-primary">
+                    Try it out &nearr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="service-card">
+              <img src="{{url_for('static', filename='assets/desktop-app.png')}}" class="card-img-top" alt="Desktop app illustration" />
+              <div class="card-body d-flex flex-column gap-3">
+                <div>
+                  <h5 class="card-title mb-1">Desktop Application</h5>
+                  <p class="card-text">
+                    A standalone app for local, offline-capable AI inference. Enter soil and climate parameters and generate accurate crop and yield predictions with low latency.
+                  </p>
+                </div>
+                <div class="mt-auto d-flex gap-2 flex-wrap">
+                  <a href="https://drive.google.com/uc?export=download&id=1yW-CvWT9L7v8AjLzOjstIrzXuhm17Afq"
+                     class="btn btn-service-primary">
+                    Download &nearr;
+                  </a>
+                  <a href="https://github.com/FasalGuru"
+                     class="btn btn-service-secondary">
+                    Code &#xE800;
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Copy column -->
+      <div class="col-lg-5 d-flex flex-column gap-3">
+        <p class="text-uppercase fw-semibold mb-0" style="color: var(--fg-amber); font-size: 0.78rem; letter-spacing: 1.5px;">What we offer</p>
+        <h2 class="services-title mb-0">Our Services</h2>
+        <p class="hero-tagline" style="font-size: 1.1rem; color: var(--fg-muted); font-weight: 400;">
+          Turning Data into Decisions<br>for Smarter Farming
+        </p>
+        <p class="services-desc mb-0">
+          We provide end-to-end AI-powered farming optimisation solutions that combine advanced machine
+          learning models with real-world implementations. From crop recommendation and soil analysis to
+          yield prediction and climate-aware insights — our services transform agricultural data into
+          actionable intelligence that farmers and agribusinesses can easily use.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 {% endblock %}

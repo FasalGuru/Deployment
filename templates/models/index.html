@@ -1,120 +1,387 @@
 {% extends "base.html" %}
 {% block title %} Fasal Guru | Models {% endblock %}
 {% block content %}
-<section class="min-vh-100 d-flex flex-column justify-content-center align-items-center py-5">
-    <div class="container-lg mb-4">
-        <h1 class="fw-bold text-success">
-            Smart Crop Recommendation
-        </h1>
-        <p class="lead fw-semibold text-warning">
-            Get AI-powered crop suggestions <br/> tailored to your soil and climate conditions.
-        </p>
-        <p class="small text-muted">
-            Enter key parameters like Nitrogen, Phosphorus, Potassium, temperature, humidity, and rainfall
-            <br/>
-            to discover the crop that offers the highest yield potential for your field.
-        </p>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --fg-green: #1a6b3a;
+    --fg-green-light: #e8f5ee;
+    --fg-green-mid: #2d8a50;
+    --fg-amber: #e07c2a;
+    --fg-amber-light: #fdf3e7;
+    --fg-dark: #111c14;
+    --fg-muted: #6b7c71;
+    --fg-surface: #f7faf8;
+    --fg-border: rgba(26, 107, 58, 0.14);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(160deg, #f0f8f3 0%, #fdfffe 60%, #fdf3e7 100%);
+    min-height: 100vh;
+  }
+
+  /* ── Page header ── */
+  .page-eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--fg-amber);
+  }
+
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--fg-green);
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    line-height: 1.1;
+  }
+
+  .page-subtitle {
+    color: var(--fg-dark);
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  .page-desc {
+    color: var(--fg-muted);
+    font-size: 0.92rem;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+
+  /* ── Form card ── */
+  .form-card {
+    background: #fff;
+    border: 1px solid var(--fg-border);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 8px 40px rgba(26, 107, 58, 0.07);
+  }
+
+  /* ── Slider row ── */
+  .slider-row {
+    background: var(--fg-surface);
+    border: 1px solid var(--fg-border);
+    border-radius: 14px;
+    padding: 1rem 1.2rem 0.8rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .slider-row:focus-within {
+    border-color: rgba(26, 107, 58, 0.38);
+    box-shadow: 0 0 0 3px rgba(26, 107, 58, 0.08);
+  }
+
+  .slider-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--fg-green-light);
+    color: var(--fg-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .slider-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--fg-muted);
+    margin-bottom: 6px;
+  }
+
+  .slider-value-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Range styling */
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 5px;
+    border-radius: 99px;
+    background: #d6e8dc;
+    outline: none;
+    cursor: pointer;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--fg-green);
+    border: 2px solid #fff;
+    box-shadow: 0 2px 6px rgba(26, 107, 58, 0.3);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--fg-green);
+    border: 2px solid #fff;
+    cursor: pointer;
+  }
+
+  .slider-output {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--fg-green);
+    min-width: 42px;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ── Section divider ── */
+  .section-divider {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--fg-border);
+  }
+
+  /* ── Submit button ── */
+  .btn-submit {
+    background: var(--fg-green);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 0.8rem 2.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.2px;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 18px rgba(26, 107, 58, 0.22);
+  }
+
+  .btn-submit:hover {
+    background: var(--fg-green-mid);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(26, 107, 58, 0.28);
+  }
+
+  .btn-submit:active {
+    transform: translateY(0);
+  }
+
+  /* ── Info tip ── */
+  .info-tip {
+    background: var(--fg-green-light);
+    border: 1px solid rgba(26, 107, 58, 0.15);
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    font-size: 0.82rem;
+    color: var(--fg-green);
+    font-weight: 400;
+  }
+</style>
+
+<section class="py-5">
+  <div class="container py-4" style="max-width: 900px;">
+
+    <!-- ── Header ── -->
+    <div class="mb-5">
+      <p class="page-eyebrow mb-2">AI Crop Intelligence</p>
+      <h1 class="page-title mb-3">Smart Crop Recommendation</h1>
+      <p class="page-subtitle mb-1">
+        Get AI-powered crop suggestions tailored to your soil and climate.
+      </p>
+      <p class="page-desc mb-0">
+        Adjust the parameters below — Nitrogen, Phosphorus, Potassium, temperature, humidity, pH,
+        and rainfall — to discover the crop that offers the highest yield potential for your field.
+      </p>
     </div>
-    <div class="container">
-        <form method="post" action="{{url_for('models.index')}}" enctype="multipart/form-data">
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    <div class="input-group d-flex align-items-center">
-                        <span class="input-group-text"><i class="bi bi-bug-fill"></i></span>
-                        <div class="form-floating">
-                            <input type="range" min="0" max="200" name="N"
-                                   class="form-range form-control mx-2 px-2 border-0"
-                                   id="nitrogen"/>
-                            <output for="nitrogen" id="nitrogen-output" class="px-3 small"></output>
-                            <label class="px-3" for="nitrogen">Nitrogen content</label>
-                        </div>
 
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="input-group d-flex align-items-center">
-                        <span class="input-group-text small"><i class="bi bi-flask-florence-fill"></i></span>
-                        <div class="form-floating">
-                            <input type="range" min="0" max="200" name="P"
-                                   class="form-range form-control h-100 mx-2 px-2 border-0" id="phosphorous"/>
-                            <output for="phosphorous" id="phosphorous-output" class="px-3 small"></output>
-                            <label for="phosphorous" class="px-3">Phosphorous content</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    <div class="input-group d-flex align-items-center">
-                        <span class="input-group-text"><i class="bi bi-ev-front-fill"></i></span>
-                        <div class="form-floating">
-                            <input type="range" min="0" max="250" name="K"
-                                   class="form-range form-control mx-2 px-2 border-0 outline-0"
-                                   id="potassium"/>
-                            <output for="potassium" id="potassium-output" class="px-3 small"></output>
-                            <label for="potassium" class="px-3">Potassium content</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="input-group d-flex align-items-center">
-                        <span class="input-group-text small"><i class="bi bi-thermometer-half"></i></span>
-                        <div class="form-floating">
-                            <input type="range" min="-5" max="60" name="temperature"
-                                   class="form-range form-control h-100 mx-2 px-2 border-0 outline-0" id="temperature"/>
-                            <output for="temperature" id="temperature-output" class="px-3 small"></output>
-                            <label for="temperature" class="px-3">Temperature °C</label>
-                        </div>
+    <!-- ── Form card ── -->
+    <div class="form-card">
 
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    <div class="input-group d-flex align-items-center">
-                        <span class="input-group-text"><i class="bi bi-moisture"></i></span>
-                        <div class="form-floating">
-                            <input type="range" min="0" max="100" name="humidity"
-                                   class="form-range form-control mx-2 px-2 border-0 outline-0" id="humidity"/>
-                            <output for="humidity" id="humidity-output" class="px-3 small"></output>
-                            <label for="humidity" class="px-3">Humidity %</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="input-group d-flex align-items-center">
-                        <span class="input-group-text small"><i class="bi bi-flask-fill"></i></span>
-                        <div class="form-floating">
-                            <input type="range" min="0" max="14" name="ph"
-                                   class="form-range form-control h-100 mx-2 px-2 border-0 outline-0" id="pH"/>
-                            <output for="ph" id="pH-output" class="px-3 small"></output>
-                            <label for="pH" class="px-3">pH</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <form method="post" action="{{url_for('models.index')}}" enctype="multipart/form-data">
 
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    <div class="input-group d-flex align-items-center">
-                        <span class="input-group-text small"><i class="bi bi-droplet-fill"></i></span>
-                        <div class="form-floating">
-                            <input type="range" min="0" max="400" name="rainfall"
-                                   class="form-range form-control h-100 mx-2 px-2 border-0 outline-0" id="rainfall"/>
-                            <output for="phosphorous" id="rainfall-output" class="px-3 small"></output>
-                            <label for="rainfall" class="px-3">
-                                Rainfall (mm)
-                            </label>
-                        </div>
-                    </div>
-                </div>
+        <!-- Soil Nutrients -->
+        <div class="section-divider">Soil Nutrients</div>
+
+        <div class="row g-3 mb-3">
+
+          <!-- Nitrogen -->
+          <div class="col-md-6">
+            <div class="slider-row">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="slider-icon"><i class="bi bi-bug-fill"></i></div>
+                <span class="slider-label mb-0">Nitrogen (N)</span>
+              </div>
+              <div class="slider-value-wrap">
+                <input type="range" min="0" max="200" value="100" name="N" id="nitrogen" />
+                <output id="nitrogen-output" class="slider-output" for="nitrogen">100</output>
+              </div>
             </div>
-            <button type="submit" class="btn btn-secondary fw-bold rounded-0" id="submit-btn">
-                Submit
-            </button>
-        </form>
+          </div>
+
+          <!-- Phosphorus -->
+          <div class="col-md-6">
+            <div class="slider-row">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="slider-icon"><i class="bi bi-flask-florence-fill"></i></div>
+                <span class="slider-label mb-0">Phosphorus (P)</span>
+              </div>
+              <div class="slider-value-wrap">
+                <input type="range" min="0" max="200" value="100" name="P" id="phosphorous" />
+                <output id="phosphorous-output" class="slider-output" for="phosphorous">100</output>
+              </div>
+            </div>
+          </div>
+
+          <!-- Potassium -->
+          <div class="col-md-6">
+            <div class="slider-row">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="slider-icon"><i class="bi bi-ev-front-fill"></i></div>
+                <span class="slider-label mb-0">Potassium (K)</span>
+              </div>
+              <div class="slider-value-wrap">
+                <input type="range" min="0" max="250" value="125" name="K" id="potassium" />
+                <output id="potassium-output" class="slider-output" for="potassium">125</output>
+              </div>
+            </div>
+          </div>
+
+          <!-- pH -->
+          <div class="col-md-6">
+            <div class="slider-row">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="slider-icon"><i class="bi bi-flask-fill"></i></div>
+                <span class="slider-label mb-0">Soil pH</span>
+              </div>
+              <div class="slider-value-wrap">
+                <input type="range" min="0" max="14" step="0.1" value="7" name="ph" id="pH" />
+                <output id="pH-output" class="slider-output" for="pH">7.0</output>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Climate Conditions -->
+        <div class="section-divider">Climate Conditions</div>
+
+        <div class="row g-3 mb-4">
+
+          <!-- Temperature -->
+          <div class="col-md-6">
+            <div class="slider-row">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="slider-icon"><i class="bi bi-thermometer-half"></i></div>
+                <span class="slider-label mb-0">Temperature (°C)</span>
+              </div>
+              <div class="slider-value-wrap">
+                <input type="range" min="-5" max="60" value="25" name="temperature" id="temperature" />
+                <output id="temperature-output" class="slider-output" for="temperature">25 °C</output>
+              </div>
+            </div>
+          </div>
+
+          <!-- Humidity -->
+          <div class="col-md-6">
+            <div class="slider-row">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="slider-icon"><i class="bi bi-moisture"></i></div>
+                <span class="slider-label mb-0">Humidity (%)</span>
+              </div>
+              <div class="slider-value-wrap">
+                <input type="range" min="0" max="100" value="50" name="humidity" id="humidity" />
+                <output id="humidity-output" class="slider-output" for="humidity">50%</output>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rainfall -->
+          <div class="col-md-6">
+            <div class="slider-row">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="slider-icon"><i class="bi bi-droplet-fill"></i></div>
+                <span class="slider-label mb-0">Rainfall (mm)</span>
+              </div>
+              <div class="slider-value-wrap">
+                <input type="range" min="0" max="400" value="200" name="rainfall" id="rainfall" />
+                <output id="rainfall-output" class="slider-output" for="rainfall">200 mm</output>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Info tip -->
+        <div class="info-tip mb-4">
+          <i class="bi bi-lightbulb-fill me-2"></i>
+          Tip: Adjust all sliders to match your field's actual measurements for the most accurate recommendation.
+        </div>
+
+        <!-- Submit -->
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-submit" id="submit-btn">
+            <i class="bi bi-stars me-2"></i>Get Recommendation
+          </button>
+        </div>
+
+      </form>
     </div>
+
+  </div>
 </section>
 
 <script src="{{url_for('static', filename='js/output.js')}}"></script>
+<script>
+  // Live slider output labels
+  const sliders = [
+    { id: 'nitrogen',     out: 'nitrogen-output',     unit: '',     decimals: 0 },
+    { id: 'phosphorous',  out: 'phosphorous-output',  unit: '',     decimals: 0 },
+    { id: 'potassium',    out: 'potassium-output',    unit: '',     decimals: 0 },
+    { id: 'pH',           out: 'pH-output',           unit: '',     decimals: 1 },
+    { id: 'temperature',  out: 'temperature-output',  unit: ' °C',  decimals: 0 },
+    { id: 'humidity',     out: 'humidity-output',     unit: '%',    decimals: 0 },
+    { id: 'rainfall',     out: 'rainfall-output',     unit: ' mm',  decimals: 0 },
+  ];
+
+  sliders.forEach(({ id, out, unit, decimals }) => {
+    const input = document.getElementById(id);
+    const output = document.getElementById(out);
+    if (!input || !output) return;
+
+    const fmt = v => parseFloat(v).toFixed(decimals) + unit;
+    output.textContent = fmt(input.value);
+    input.addEventListener('input', () => output.textContent = fmt(input.value));
+  });
+</script>
 {% endblock %}
